@@ -76,6 +76,7 @@ rule-providers:
     interval: 86400
 rules:
   # clash-rules
+  - RULE-SET,not-hk,🇨🇳 台湾 01
   - DOMAIN,clash.razord.top,DIRECT
   - DOMAIN,yacd.haishan.me,DIRECT
   - RULE-SET,private,DIRECT
@@ -88,4 +89,3 @@ rules:
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
   - RULE-SET,telegramcidr,XSUS
-  - RULE-SET,not-hk,🇨🇳 台湾 01
