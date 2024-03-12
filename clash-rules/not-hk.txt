@@ -2,3 +2,4 @@ payload:
   - '+.coze.com'
   - '+.openai.com'
   - 'claude.ai'
+  - 'coze.com'
