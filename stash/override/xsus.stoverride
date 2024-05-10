@@ -74,9 +74,15 @@ rule-providers:
     format: yaml
     url: https://cdn.jsdelivr.net/gh/ChasLui/config@main/clash-rules/not-hk.txt
     interval: 86400
+  cn:
+    behavior: domain
+    format: yaml
+    url: https://cdn.jsdelivr.net/gh/ChasLui/config@main/clash-rules/cn.txt
+    interval: 86400
 rules:
   # clash-rules
   - RULE-SET,not-hk,🇨🇳 台湾 01
+  - RULE-SET,cn,DIRECT
   - DOMAIN,clash.razord.top,DIRECT
   - DOMAIN,yacd.haishan.me,DIRECT
   - RULE-SET,private,DIRECT
