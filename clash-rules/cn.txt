@@ -1,0 +1,3 @@
+payload:
+  - '+.lanhuapp.com'
+  - '+.mastergo.com'
