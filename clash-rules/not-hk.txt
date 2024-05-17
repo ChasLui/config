@@ -1,5 +1,6 @@
 payload:
   - '+.coze.com'
   - '+.openai.com'
+  - 'chatgpt.com'
   - 'claude.ai'
   - 'coze.com'
