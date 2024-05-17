@@ -1,8 +1,5 @@
 payload:
-  - '+.coze.com'
-  - '+.openai.com'
-  - 'openai.com'
-  - 'chatgpt.com'
-  - '+.chatgpt.com'
-  - 'claude.ai'
-  - 'coze.com'
+  - 'DOMAIN-SUFFIX,coze.com'
+  - 'DOMAIN-SUFFIX,openai.com'
+  - 'DOMAIN-SUFFIX,chatgpt.com'
+  - 'DOMAIN-SUFFIX,claude.ai'
