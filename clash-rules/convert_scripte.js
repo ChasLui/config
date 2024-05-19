@@ -171,8 +171,8 @@ function main(config) {
 
   // 覆盖原配置中DNS配置
   config["dns"] = dnsConfig;
- // 动态匹配非香港台湾澳门节点
- const notBigChinaProxies = config.proxies.filter(proxy => !/香港|HK|台湾|TW|澳门|MO/i.test(proxy.name)).map(proxy => proxy.name);
+  // 动态匹配非香港台湾澳门节点
+  const notBigChinaProxies = config.proxies.filter(proxy => !/香港|HK|台湾|TW|澳门|MO/i.test(proxy.name)).map(proxy => proxy.name);
 
 
   // 覆盖原配置中的代理组
