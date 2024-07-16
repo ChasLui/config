@@ -16,6 +16,11 @@ const foreignNameservers = [
 // DNS配置
 const dnsConfig = {
   "dns": true,
+  "device": "utun100",
+  "stack": "mixed",
+  "auto-route": true,
+  "auto-redirect": true,
+  "auto-detect-interface": true,
   "listen": 1053,
   "ipv6": true,
   "use-system-hosts": false,
@@ -28,8 +33,10 @@ const dnsConfig = {
   "proxy-server-nameserver": [...domesticNameservers, ...foreignNameservers],
   "nameserver-policy": {
     "geosite:private,cn,geolocation-cn": domesticNameservers,
-    "geosite:google,youtube,telegram,gfw,geolocation-!cn": foreignNameservers
-  }
+    "geosite:google,youtube,telegram,gfw,geolocation-!cn": foreignNameservers,
+  },
+  "exclude-package": ["SASE.app", "com.aliyun.security.sase.Helper"],
+  "route-exclude-address": ["10.0.0.0/8", "100.0.0.0/8"],
 };
 // 规则集通用配置
 const ruleProviderCommon = {
@@ -116,10 +123,33 @@ const ruleProviders = {
     "behavior": "classical",
     "url": "https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt",
     "path": "./rulesets/loyalsoldier/applications.yaml"
-  }
+  },
+  "my-cn": {
+    ...ruleProviderCommon,
+    "behavior": "domain",
+    "url": "https://fastly.jsdelivr.net/gh/ChasLui/config@main/clash-rules/cn.txt",
+    "path": "./rulesets/loyalsoldier/my-cn.yaml"
+  },
+  "my-not-hk": {
+    ...ruleProviderCommon,
+    "behavior": "domain",
+    "url": "https://fastly.jsdelivr.net/gh/ChasLui/config@main/clash-rules/not-hk.txt",
+    "path": "./rulesets/loyalsoldier/my-not-hk.yaml"
+  },
 };
 // 规则
 const rules = [
+  // 直连规则
+  "IP-CIDR,43.134.64.7/32,全局直连,no-resolve",
+  "RULE-SET,my-cn,全局直连,no-resolve", // 新增非中国域名
+  "RULE-SET,my-not-hk,非大中华节点", // 新增非香港台湾澳门域名
+  // taiscale
+  "PROCESS-NAME,tailscale,全局直连,no-resolve",
+  "PROCESS-NAME,tailscaled,全局直连,no-resolve",
+  "PROCESS-NAME,tailscale.com,全局直连,no-resolve",
+  "PROCESS-NAME,tailscale.io,全局直连,no-resolve",
+  "IP-CIDR,100.64.0.0/10,全局直连,no-resolve",
+  "IP-CIDR,100.100.53.37/32,全局直连,no-resolve",
   // 新增非香港台湾澳门规则
   "DOMAIN-SUFFIX,chatgpt.com,非大中华节点",
   "DOMAIN-SUFFIX,openai.com,非大中华节点",
@@ -144,7 +174,8 @@ const rules = [
   "RULE-SET,direct,全局直连",
   "RULE-SET,lancidr,全局直连,no-resolve",
   "RULE-SET,cncidr,全局直连,no-resolve",
-  "RULE-SET,telegramcidr,电报消息,no-resolve",
+  // "RULE-SET,telegramcidr,电报消息,no-resolve",
+  "RULE-SET,telegramcidr,全局直连",
   // 其他规则
   "GEOIP,LAN,全局直连,no-resolve",
   "GEOIP,CN,全局直连,no-resolve",
@@ -236,8 +267,7 @@ function main(config) {
       ...groupBaseOption,
       "name": "电报消息",
       "type": "select",
-      // "proxies": ["节点选择", "延迟选优", "故障转移", "负载均衡(散列)", "负载均衡(轮询)", "全局直连"],
-      "proxies": ["全局直连"],
+      "proxies": ["节点选择", "延迟选优", "故障转移", "负载均衡(散列)", "负载均衡(轮询)", "全局直连"],
       "include-all": true,
       "icon": "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/telegram.svg"
     },
